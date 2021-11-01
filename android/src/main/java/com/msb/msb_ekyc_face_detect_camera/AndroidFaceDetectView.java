@@ -134,7 +134,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
                 startEkycModule(detectionParams);
                 break;
             case "stopCamera":
-                //ekycManager.stopDetection();
+                ekycManager.stopDetection();
                 break;
             case "resumeCameraPreview":
                 break;
@@ -155,6 +155,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
     public void dispose() {
         channelReady = false;
         permisstionGranted = false;
+        ekycManager.stopDetection();
     }
 
     /**
