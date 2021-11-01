@@ -1,0 +1,56 @@
+group 'com.msb.msb_ekyc_face_detect_camera'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.3'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 23
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.2'
+
+    //ekyc module
+    implementation files('libs/ekyc-module-release.aar')
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.3.1'
+
+    //dexter runtime permission library
+    implementation 'com.karumi:dexter:6.2.0'
+
+
+    //butterknife
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+}

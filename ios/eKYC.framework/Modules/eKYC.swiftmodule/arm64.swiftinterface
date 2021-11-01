@@ -1,0 +1,137 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 effective-4.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 4.2 -enforce-exclusivity=checked -O -module-name eKYC
+import AVFoundation
+import CoreImage
+import CoreMotion
+import Foundation
+import Swift
+import UIKit
+import Vision
+@_exported import eKYC
+public protocol KYCVideoDelegate {
+  func videoRecorded(atFile location: Foundation.URL, With userImage: UIKit.UIImage?, and params: [[Swift.String : Any]])
+  func willValidate(gesture: eKYC.Detection)
+  func didValidate(gesture: eKYC.Detection)
+  func didGet(_ error: eKYC.DetectionError)
+  func faceSearchCompleted()
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class KYCVideoPreview : UIKit.UIView {
+  public var detections: [eKYC.Detection]
+  public var enableFaceBounds: Swift.Bool
+  public var videoDelegate: eKYC.KYCVideoDelegate?
+  public var detectionTime: Swift.Double
+  public var faceBox: CoreGraphics.CGRect!
+  public var previewBgColor: UIKit.UIColor
+  public func startPreview()
+  public func stopPreview()
+  public func startDetections()
+  public func stopDetections()
+  public func resetDetections()
+  public func removeFile(at location: Foundation.URL)
+  public func searchFaceAvailable()
+  @objc deinit
+}
+extension KYCVideoPreview {
+  public func requestCameraPermisson(_ completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension KYCVideoPreview : AVFoundation.AVCaptureVideoDataOutputSampleBufferDelegate, AVFoundation.AVCaptureAudioDataOutputSampleBufferDelegate {
+  @objc dynamic public func captureOutput(_ output: AVFoundation.AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer, from connection: AVFoundation.AVCaptureConnection)
+}
+extension KYCVideoPreview : AVFoundation.AVCaptureMetadataOutputObjectsDelegate {
+  @objc dynamic public func metadataOutput(_ output: AVFoundation.AVCaptureMetadataOutput, didOutput metadataObjects: [AVFoundation.AVMetadataObject], from connection: AVFoundation.AVCaptureConnection)
+}
+@_hasMissingDesignatedInitializers public class KYCImageManager {
+  public static func detectIdCard(_ image: CoreGraphics.CGImage, completionHandler: @escaping (UIKit.UIImage) -> Swift.Void)
+  @objc deinit
+}
+public enum Detection : Swift.String {
+  case HeadRight
+  case HeadLeft
+  case Smile
+  case Blink
+  case Complete
+  case NotReady
+  case Portrait
+  case Waiting
+  public static func guestureFor(string: Swift.String) -> eKYC.Detection
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+public enum DetectionError {
+  case permissonDenied
+  case multipleFaces
+  case lostFaceTrack
+  case sessonFailure
+  case timeout
+  public static func == (a: eKYC.DetectionError, b: eKYC.DetectionError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol KYCCameraDelegate {
+  func capturedImage(_ image: UIKit.UIImage)
+  func capturedId(_ image: UIKit.UIImage)
+}
+@objc @_inheritsConvenienceInitializers public class KYCCameraPreview : UIKit.UIView {
+  public var cameraDelegate: eKYC.KYCCameraDelegate?
+  public var enableFlash: Swift.Bool
+  public func startPreview()
+  public func stopPreview()
+  public func capturePhoto()
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension KYCCameraPreview {
+  public func requestCameraPermisson(_ completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension KYCCameraPreview : AVFoundation.AVCapturePhotoCaptureDelegate {
+  @objc dynamic public func photoOutput(_ output: AVFoundation.AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVFoundation.AVCapturePhoto, error: Swift.Error?)
+}
+@objc @_inheritsConvenienceInitializers public class KYCIdDetectionView : UIKit.UIView {
+  public var cameraDelegate: eKYC.KYCCameraDelegate?
+  public func startPreview()
+  public func stopPreview()
+  public func capturePhoto()
+  public func flash(enable: Swift.Bool)
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension KYCIdDetectionView {
+  public func requestCameraPermisson(_ completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension KYCIdDetectionView : AVFoundation.AVCaptureVideoDataOutputSampleBufferDelegate {
+  @objc dynamic public func captureOutput(_ output: AVFoundation.AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer, from connection: AVFoundation.AVCaptureConnection)
+}
+public protocol CameraDelegate {
+  func capturedImage(_ image: UIKit.UIImage)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class IDCropView : UIKit.UIView {
+  public var cameraDelegate: eKYC.CameraDelegate?
+  public var enableFlash: Swift.Bool
+  public func startPreview()
+  public func stopPreview()
+  public func capturePhoto()
+  @objc deinit
+}
+extension IDCropView {
+  public func requestCameraPermisson(_ completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension IDCropView : AVFoundation.AVCaptureVideoDataOutputSampleBufferDelegate {
+  @objc dynamic public func captureOutput(_ output: AVFoundation.AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer, from connection: AVFoundation.AVCaptureConnection)
+}
+@_hasMissingDesignatedInitializers public class Tools {
+  public class func levenshtein(aStr: Swift.String, bStr: Swift.String) -> Swift.Int
+  @objc deinit
+}
+extension eKYC.Detection : Swift.Equatable {}
+extension eKYC.Detection : Swift.Hashable {}
+extension eKYC.Detection : Swift.RawRepresentable {}
+extension eKYC.DetectionError : Swift.Equatable {}
+extension eKYC.DetectionError : Swift.Hashable {}
