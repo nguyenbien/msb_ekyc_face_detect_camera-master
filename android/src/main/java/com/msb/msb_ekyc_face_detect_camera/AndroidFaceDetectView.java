@@ -163,7 +163,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
      */
     private void HardwarePermissionCheck() {
         Dexter.withContext(context)
-                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
