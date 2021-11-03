@@ -62,7 +62,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
     private boolean channelReady = false;
     private boolean permisstionGranted = false;
     private boolean isInitSuccess = false;
-    private boolean isInitTimerDone = false;
+//    private boolean isInitTimerDone = false;
 
     private EKYCManager ekycManager = null;
     private DetectionParams detectionParams = null;
@@ -170,7 +170,11 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
                         if (multiplePermissionsReport.areAllPermissionsGranted()){
                             Log.i(TAG, "All permission granted!");
                             permisstionGranted = true;
-                            if (!isInitSuccess && isInitTimerDone && channelReady) initSuccess();
+//                            if (!isInitSuccess && isInitTimerDone && channelReady) initSuccess();
+
+                            if (!isInitSuccess && channelReady){
+                                initSuccess();
+                            }
                         }
                     }
 
@@ -184,10 +188,10 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
     /**
      * waiting init event channel
      */
-    private CountDownTimer initTimer;
+//    private CountDownTimer initTimer;
     private void init() {
         isInitSuccess = false;
-        isInitTimerDone = false;
+//        isInitTimerDone = false;
         Log.i(TAG, "init() viewId: " + viewId);
         new EventChannel(binaryMessenger, "face_detect_view_event_channel_" + viewId)
                 .setStreamHandler(
@@ -196,6 +200,9 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
                             public void onListen(Object arguments, EventChannel.EventSink sink) {
                                 eventSink = sink;
                                 channelReady = true;
+                                if(!isInitSuccess && permisstionGranted){
+                                    initSuccess();
+                                }
                                 EKYCLogger.print(TAG, "Create event stream success! onListen");
                             }
 
@@ -204,24 +211,24 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
                                 eventSink = null;
                             }
                         });
-        initTimer = new CountDownTimer(5*1000, 1000L) {
-            public void onTick(long millisUntilFinished) {
-                Log.i(TAG, "initTimer Ontick" + channelReady + permisstionGranted);
-                if (channelReady && permisstionGranted) {
-                    initSuccess();
-                }
-            }
-
-            public void onFinish() {
-                isInitTimerDone = true;
-            }
-        };
-        initTimer.start();
+//        initTimer = new CountDownTimer(5*1000, 1000L) {
+//            public void onTick(long millisUntilFinished) {
+//                Log.i(TAG, "initTimer Ontick" + channelReady + permisstionGranted);
+//                if (channelReady && permisstionGranted) {
+//                    initSuccess();
+//                }
+//            }
+//
+//            public void onFinish() {
+//                isInitTimerDone = true;
+//            }
+//        };
+//        initTimer.start();
     }
 
     private void initSuccess () {
         isInitSuccess = true;
-        initTimer.cancel();
+//        initTimer.cancel();
         String jsonString = gson.toJson(detectionParams.getGestureList());
         EKYCLogger.print(TAG,"Gesture list json: " + jsonString);
         Map<String, Object> event = new HashMap<>();
