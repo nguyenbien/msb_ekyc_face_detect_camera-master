@@ -71,7 +71,7 @@ class FaceDetectController extends ValueNotifier<FaceDetectControllerValue> {
             int length = value.gestures.length;
             for (int i = 0; i < length; i++) {
               if (value.gestures[i].name == eventData['name']) {
-                value = value.copyWith(currentGestureIndex: i + 1);
+                value = value.copyWith(successDetectData: eventData, currentGestureIndex: i + 1);
                 break;
               }
             }
