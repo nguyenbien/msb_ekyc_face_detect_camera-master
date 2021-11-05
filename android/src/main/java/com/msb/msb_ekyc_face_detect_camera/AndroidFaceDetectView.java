@@ -285,6 +285,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
         if(event.equals(DetectionEvent.SUCCESS)){
             clearCountDownTimer();
             countDownTimer = handleSuccess(gesture);
+            EKYCLogger.print(TAG,"Detection event gesture face_detect_event = "+gesture);
             sendEventToDart("face_detect_event", gesture.toString());
         } else if(event.equals(DetectionEvent.TIME_OUT)){
             handleFailure("timeout");
@@ -363,7 +364,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
 
     @Override
     public void onGestreDetectinCompleted(boolean b, String s) {
-        EKYCLogger.print(TAG,"Detection event "+b+ "gesture "+s);
+        EKYCLogger.print(TAG,"Detection event "+b+ "face_detect_success gesture=  "+s);
         /*if (b)*/ {
             sendEventToDart("face_detect_success", s);
         }
