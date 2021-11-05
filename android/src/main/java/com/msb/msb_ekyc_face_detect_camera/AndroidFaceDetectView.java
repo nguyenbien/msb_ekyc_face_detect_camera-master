@@ -262,7 +262,15 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
     private void startEkycModule(DetectionParams detectionParams){
         initGestures();
         ekycManager.startDetection(cameraSourcePreview,graphicOverlay,detectionParams);
+        clearCountDownTimer();
         countDownTimer = detectNextGesture();
+    }
+
+
+    private void clearCountDownTimer(){
+        if(countDownTimer != null){
+            countDownTimer.cancel();
+        }
     }
 
     private CountDownTimer countDownTimer = null;
@@ -275,6 +283,7 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
             EKYCLogger.print(TAG,"Cancelled "+ gesture);
         }
         if(event.equals(DetectionEvent.SUCCESS)){
+            clearCountDownTimer();
             countDownTimer = handleSuccess(gesture);
             sendEventToDart("face_detect_event", gesture.toString());
         } else if(event.equals(DetectionEvent.TIME_OUT)){
