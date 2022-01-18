@@ -2,6 +2,8 @@ package com.msb.msb_ekyc_face_detect_camera;
 
 import android.content.Context;
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -134,7 +136,11 @@ public class AndroidFaceDetectView implements PlatformView, MethodCallHandler, O
                 startEkycModule(detectionParams);
                 break;
             case "stopCamera":
-                ekycManager.stopDetection();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    public void run() {
+                        ekycManager.stopDetection();
+                    }
+                });
                 break;
             case "resumeCameraPreview":
                 break;
