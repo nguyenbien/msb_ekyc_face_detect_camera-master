@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision:24.0.2'
 
     //ekyc module
-    implementation files('libs/ekyc-module-release-1.0.0.aar')
+    implementation files('libs/ekyc-module-release-1.0.1.aar')
 
     //gson
     implementation 'com.google.code.gson:gson:2.3.1'
