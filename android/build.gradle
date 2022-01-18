@@ -38,15 +38,16 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.2'
 
     //ekyc module
-    implementation files('libs/ekyc-module-release.aar')
+    implementation project(':ekyc_module')
+
 
     //gson
-    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     //dexter runtime permission library
     implementation 'com.karumi:dexter:6.2.0'
